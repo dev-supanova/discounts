@@ -44,6 +44,6 @@ public class UsersController {
             return ResponseEntity.badRequest().build();
         }
 
-        return ResponseEntity.ok(userService.add(userModel.getUserType(), userModel.getCustomerSince()));
+        return ResponseEntity.status(201).body(userService.add(userModel.getUserType(), userModel.getCustomerSince()));
     }
 }
