@@ -11,6 +11,14 @@ To run the application run command `mvn spring-boot:run`. The application will r
 
 An alternative is to use an IDE of choice to take advantage of in built tools of the IDE especially when running tests.
 
+## Test Coverage
+
+To generate test coverage run the following command:
+
+```bash
+mvn jacoco:prepare-agent test install jacoco:report
+```
+
 ## Documentation
 
 The APIs are documented using OpenAPI version 3 and swagger UI can be viwed at path `/docs.html`

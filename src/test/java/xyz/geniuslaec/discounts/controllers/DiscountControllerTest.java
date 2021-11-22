@@ -55,4 +55,17 @@ public class DiscountControllerTest {
 
         assertEquals(200, response.getStatus());
     }
+
+    @Test
+    void willReturnBadRequestOnEmptyBill() throws Exception {
+        User user = new User(0, UserType.EMPLOYEE, new Date());
+        List<BillItem> items = new ArrayList<>();
+        var bill = new Bill(items);
+
+        Mockito.when(discountService.processDiscount(bill, user.getId())).thenReturn(new Money());
+
+        var response = mockMvc.perform(post("/discounts/0").contentType(MediaType.APPLICATION_JSON).content(billRequest.write(bill).getJson())).andReturn().getResponse();
+
+        assertEquals(400, response.getStatus());
+    }
 }
