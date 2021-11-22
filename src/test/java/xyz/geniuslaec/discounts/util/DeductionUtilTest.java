@@ -1,11 +1,12 @@
 package xyz.geniuslaec.discounts.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -96,5 +97,18 @@ public class DeductionUtilTest {
         assertEquals(expected.getCurrency(), result.getCurrency());
     }
 
-    // Long serving
+    @Test
+    public void correctPayableAfterPercentileDeductionLongServingCustomer() {
+        var date = new GregorianCalendar(2015, Calendar.AUGUST, 22).getTime();
+        User user = new User(0, UserType.OTHER, date);
+        List<BillItem> items = new ArrayList<>();
+        items.add(new BillItem(new Product("One", new Money("BWP", BigDecimal.valueOf(100)), ProductType.OTHER), 1));
+        var bill = new Bill(items);
+
+        var result = DeductionUtil.payableAfterPercentileDeduction(bill, user);
+        var expected = new Money("BWP", BigDecimal.valueOf(95));
+
+        assertEquals(expected.getAmount().longValue(), result.getAmount().longValue());
+        assertEquals(expected.getCurrency(), result.getCurrency());
+    }
 }
